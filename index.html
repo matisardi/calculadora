@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center border rounded-2 py-2 px-3 text-bg-secondary" style="width: 300px;">
+        <div class="row">
+            <div class="col m-1 text-end border rounded-2 text-bg-light">
+                <p class="fs-4 m-0" id="verChico">0</p>
+                <p class="fs-1 fw-bold m-0" id="verGrande">0</p>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-success col m-1" onclick="memory('C')">MC</button>
+            <button type="button" class="btn btn-success col m-1" onclick="memory('R')">MR</button>
+            <button type="button" class="btn btn-success col m-1" onclick="memory('+')">M+</button>
+            <button type="button" class="btn btn-success col m-1" onclick="memory('-')">M-</button>
+            <button type="button" class="btn btn-success col m-1" onclick="memory('S')">MS</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-warning col m-1" onclick="operador('%')">%</button>
+            <button type="button" class="btn btn-warning col m-1" onclick="numeral()">n!</button>
+            <button type="button" class="btn btn-danger col m-1" onclick="borrarUltimo()">CE</button>
+            <button type="button" class="btn btn-danger col m-1" onclick="borrar()">C</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-warning col m-1" onclick="inv()">1/x</button>
+            <button type="button" class="btn btn-warning col m-1" onclick="cuadrado()"><img src="./1772624_math_mathematics_square_square sign_x square_icon_16x16.png" alt="cuadrado"></button>
+            <button type="button" class="btn btn-warning col m-1" onclick="raizCuadrada()"><img src="./8665876_square_root_variable_icon_16x16.png" alt="raiz cuadrada"></button>
+            <button type="button" class="btn btn-warning col m-1" onclick="operador('/')">/</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('7')">7</button>
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('8')">8</button>
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('9')">9</button>
+            <button type="button" class="btn btn-warning col m-1" onclick="operador('*')">*</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('4')">4</button>
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('5')">5</button>
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('6')">6</button>
+            <button type="button" class="btn btn-warning col m-1" onclick="operador('-')">-</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('1')">1</button>
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('2')">2</button>
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('3')">3</button>
+            <button type="button" class="btn btn-warning col m-1" onclick="operador('+')">+</button>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-light col m-1" onclick="cambiaSigno()">+/-</button>
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('0')">0</button>
+            <button type="button" class="btn btn-light col m-1" onclick="agregaDigito('.')">.</button>
+            <button type="button" class="btn btn-primary col m-1" onclick="operador('=')">=</button>
+        </div>
+    </div>
+    
+    <script src="./script.js"></script>
+</body>
+</html>
