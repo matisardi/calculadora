@@ -5,8 +5,10 @@ var nuevoNum = 0;
 var posUltimoSigno = 0;
 var memoria = 0;
 var funcionPrevia = 0;
+var error = 0;
 
 function agregaDigito(digito) {
+    if (error == 1) borrarUltimo();
     if (funcionPrevia == 0) {
         if (pendiente == "=") {
             borrar();
@@ -16,13 +18,13 @@ function agregaDigito(digito) {
             nuevoNum = 0;
         }
         num += digito;
-        // console.log(num);
         actualizaVerChico(digito);
         actualizaVerGrande(digito);
     }
 }
 
 function operador(signo) {
+    if (error == 1) borrarUltimo();
     if (num != "") {
         switch (pendiente) {
             case "":
@@ -43,7 +45,6 @@ function operador(signo) {
                 break;
         }
     }
-    // console.log(total);
     if (pendiente != "=") {
         if (num == "") document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-1);
         actualizaVerChico(signo);
@@ -78,23 +79,25 @@ function borrar() {
     nuevoNum = 0;
     posUltimoSigno = 0;
     funcionPrevia = 0;
+    error = 0;
     document.getElementById('verChico').innerHTML = "0";
     document.getElementById('verGrande').innerHTML = "0";
 }
 
 function borrarUltimo() {
     if (num != "" && pendiente != "") {
-        document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
+        document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,posUltimoSigno + 1);
     } else document.getElementById('verChico').innerHTML = "0";
     document.getElementById('verGrande').innerHTML = "0";
     num = "";
     funcionPrevia = 0;
+    error = 0;
 }
 
 function cambiaSigno() {
     let cadena = document.getElementById('verChico').innerHTML;
     if (num != "") {
-        num = parseFloat(num) * (-1);
+        num = "-" + num;
         if (posUltimoSigno == 0) {
             cadena = "-" + cadena;
         } else cadena = cadena.slice(0, posUltimoSigno + 1) + "-" + cadena.slice(posUltimoSigno + 1);
@@ -131,9 +134,14 @@ function raizCuadrada() {
     if (funcionPrevia == 0) {
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`sqrt(${num})`);
-        num = Math.sqrt(num);
-        document.getElementById('verGrande').innerHTML = num;
-        funcionPrevia = 1;
+        if (num >= 0) {
+            num = Math.sqrt(num);
+            document.getElementById('verGrande').innerHTML = num;
+            funcionPrevia = 1;
+        } else {
+            document.getElementById('verGrande').innerHTML = "Dato inválido"
+            error = 1;
+        }
     }
 }
 
@@ -162,9 +170,14 @@ function numeral() {
         let resultado = 1;
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`${num}!`);
-        for (let i=1; i<=num; i++) resultado *= i;
-        num = resultado;
-        document.getElementById('verGrande').innerHTML = num;
-        funcionPrevia = 1;
+        if (num >= 0) {
+            for (let i=1; i<=num; i++) resultado *= i;
+            num = resultado;
+            document.getElementById('verGrande').innerHTML = num;
+            funcionPrevia = 1;
+        } else {
+            document.getElementById('verGrande').innerHTML = "Dato inválido"
+            error = 1;
+        }
     }
 }
