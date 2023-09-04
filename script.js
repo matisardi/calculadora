@@ -1,11 +1,11 @@
-var num = "";
-var total = 0;
-var pendiente = "";
-var nuevoNum = 0;
-var posUltimoSigno = 0;
-var memoria = 0;
-var funcionPrevia = 0;
-var error = 0;
+var num = "";               // guarda el número que se está ingresando
+var total = 0;              // va guardando el total
+var pendiente = "";         // guarda la última operación ingresada
+var nuevoNum = 0;           // flag para cuando se ingresa un nuevo número
+var posUltimoSigno = 0;     // guarda la posición del último signo ingresado
+var memoria = 0;            // buffer que funciona con las teclas de memoria
+var funcionPrevia = 0;      // flag que indica si hubo una función previa (por ejemplo raíz cuadrada)
+var error = 0;              // flag para cuando hay un error
 
 function agregaDigito(digito) {
     if (error == 1) borrarUltimo();
@@ -62,12 +62,12 @@ function operador(signo) {
     funcionPrevia = 0;
 }
 
-function actualizaVerChico(dato) {
+function actualizaVerChico(dato) {          // agrega en el display chico el dato parámetro
     if (document.getElementById('verChico').innerHTML == 0) document.getElementById('verChico').innerHTML = "";
     document.getElementById('verChico').innerHTML += dato;
 }
 
-function actualizaVerGrande(dato) {
+function actualizaVerGrande(dato) {         // agrega en el display grande el dato parámetro
     if (document.getElementById('verGrande').innerHTML == 0) document.getElementById('verGrande').innerHTML = "";
     document.getElementById('verGrande').innerHTML += dato;
 }
