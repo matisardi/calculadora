@@ -2,7 +2,7 @@ var num = "";               // guarda el número que se está ingresando
 var total = 0;              // va guardando el total
 var pendiente = "";         // guarda la última operación ingresada
 var nuevoNum = 0;           // flag para cuando se ingresa un nuevo número
-var posUltimoSigno = 0;     // guarda la posición del último signo ingresado
+var posUltimoSigno = -1;     // guarda la posición del último signo ingresado
 var memoria = 0;            // buffer que funciona con las teclas de memoria
 var funcionPrevia = 0;      // flag que indica si hubo una función previa (por ejemplo raíz cuadrada)
 var error = 0;              // flag para cuando hay un error
@@ -63,11 +63,13 @@ function operador(signo) {
 }
 
 function actualizaVerChico(dato) {          // agrega en el display chico el dato parámetro
+    if ((document.getElementById('verChico').innerHTML + dato).length > 19) document.getElementById('verChico').className = "fs-6 m-0";
     if (document.getElementById('verChico').innerHTML == 0) document.getElementById('verChico').innerHTML = "";
     document.getElementById('verChico').innerHTML += dato;
 }
 
 function actualizaVerGrande(dato) {         // agrega en el display grande el dato parámetro
+    if ((document.getElementById('verGrande').innerHTML + dato).length > 10) document.getElementById('verGrande').className = "fs-4 fw-bold m-0";
     if (document.getElementById('verGrande').innerHTML == 0) document.getElementById('verGrande').innerHTML = "";
     document.getElementById('verGrande').innerHTML += dato;
 }
@@ -77,18 +79,21 @@ function borrar() {
     total = 0;
     pendiente = "";
     nuevoNum = 0;
-    posUltimoSigno = 0;
+    posUltimoSigno = -1;
     funcionPrevia = 0;
     error = 0;
     document.getElementById('verChico').innerHTML = "0";
+    document.getElementById('verChico').className = "fs-4 m-0";
     document.getElementById('verGrande').innerHTML = "0";
+    document.getElementById('verGrande').className = "fs-1 fw-bold m-0";
 }
 
 function borrarUltimo() {
     if (num != "" && pendiente != "") {
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,posUltimoSigno + 1);
     } else document.getElementById('verChico').innerHTML = "0";
-    document.getElementById('verGrande').innerHTML = "0";
+    if (document.getElementById('verChico').innerHTML.length <= 19) document.getElementById('verChico').className = "fs-4 m-0";    document.getElementById('verGrande').innerHTML = "0";
+    document.getElementById('verGrande').className = "fs-1 fw-bold m-0";
     num = "";
     funcionPrevia = 0;
     error = 0;
@@ -97,14 +102,27 @@ function borrarUltimo() {
 function cambiaSigno() {
     let cadena = document.getElementById('verChico').innerHTML;
     if (num != "") {
-        num = "-" + num;
-        if (posUltimoSigno == 0) {
-            cadena = "-" + cadena;
-        } else cadena = cadena.slice(0, posUltimoSigno + 1) + "-" + cadena.slice(posUltimoSigno + 1);
-        document.getElementById('verChico').innerHTML = "";
-        document.getElementById('verGrande').innerHTML = "";
-        actualizaVerChico(cadena);
-        actualizaVerGrande(num);
+        if (cadena.slice(posUltimoSigno + 1, posUltimoSigno + 2) != "-") {
+            num = "-" + num;
+            /*if (posUltimoSigno == 0) {
+                cadena = "-" + cadena;
+            } else cadena = cadena.slice(0, posUltimoSigno + 1) + "-" + cadena.slice(posUltimoSigno + 1);*/
+            cadena = cadena.slice(0, posUltimoSigno + 1) + "-" + cadena.slice(posUltimoSigno + 1);
+            document.getElementById('verChico').innerHTML = "";
+            document.getElementById('verGrande').innerHTML = "";
+            actualizaVerChico(cadena);
+            actualizaVerGrande(num);
+        } else {
+            num = num.slice(1);
+            /*if (posUltimoSigno == 0) {
+                cadena = cadena.slice(1);
+            } else cadena = cadena.slice(0, posUltimoSigno + 1) + cadena.slice(posUltimoSigno + 2);*/
+            cadena = cadena.slice(0, posUltimoSigno + 1) + cadena.slice(posUltimoSigno + 2);
+            document.getElementById('verChico').innerHTML = "";
+            document.getElementById('verGrande').innerHTML = "";
+            actualizaVerChico(cadena);
+            actualizaVerGrande(num);
+        }
     }
 }
 
@@ -134,12 +152,13 @@ function raizCuadrada() {
     if (funcionPrevia == 0) {
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`sqrt(${num})`);
+        document.getElementById('verGrande').innerHTML = "";
         if (num >= 0) {
             num = Math.sqrt(num);
-            document.getElementById('verGrande').innerHTML = num;
+            actualizaVerGrande(num);
             funcionPrevia = 1;
         } else {
-            document.getElementById('verGrande').innerHTML = "Dato inválido"
+            actualizaVerGrande("Dato inválido");
             error = 1;
         }
     }
@@ -150,7 +169,8 @@ function cuadrado() {
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`${num}**2`);
         num = num ** 2;
-        document.getElementById('verGrande').innerHTML = num;
+        document.getElementById('verGrande').innerHTML = "";
+        actualizaVerGrande(num);
         funcionPrevia = 1;
     }
 }
@@ -160,7 +180,8 @@ function inv() {
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`(1/${num})`);
         num = 1 / num;
-        document.getElementById('verGrande').innerHTML = num;
+        document.getElementById('verGrande').innerHTML = "";
+        actualizaVerGrande(num);
         funcionPrevia = 1;
     }
 }
@@ -170,13 +191,14 @@ function numeral() {
         let resultado = 1;
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`${num}!`);
+        document.getElementById('verGrande').innerHTML = "";
         if (num >= 0) {
             for (let i=1; i<=num; i++) resultado *= i;
             num = resultado;
-            document.getElementById('verGrande').innerHTML = num;
+            actualizaVerGrande(num);
             funcionPrevia = 1;
         } else {
-            document.getElementById('verGrande').innerHTML = "Dato inválido"
+            actualizaVerGrande("Dato inválido");
             error = 1;
         }
     }
