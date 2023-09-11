@@ -149,6 +149,7 @@ function memory(accion) {
 }
 
 function raizCuadrada() {
+    if (pendiente == "=") num = total;
     if (funcionPrevia == 0) {
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`sqrt(${num})`);
@@ -165,6 +166,7 @@ function raizCuadrada() {
 }
 
 function cuadrado() {
+    if (pendiente == "=") num = total;
     if (funcionPrevia == 0) {
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`${num}**2`);
@@ -176,6 +178,7 @@ function cuadrado() {
 }
 
 function inv() {
+    if (pendiente == "=") num = total;
     if (funcionPrevia == 0) {
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
         actualizaVerChico(`(1/${num})`);
@@ -187,6 +190,7 @@ function inv() {
 }
 
 function numeral() {
+    if (pendiente == "=") num = total;
     if (funcionPrevia == 0) {
         let resultado = 1;
         document.getElementById('verChico').innerHTML = document.getElementById('verChico').innerHTML.slice(0,-num.length);
